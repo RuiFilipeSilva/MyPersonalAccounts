@@ -1,6 +1,8 @@
 const movementSchema = require("../models/movements");
 const descriptionFunctions = require("./descriptionsFunctions");
+const AppError = require("../errors/appError");
 
+// Get all movements
 exports.getMovements = async () => {
   try {
     const movements = await movementSchema.find();
@@ -10,6 +12,7 @@ exports.getMovements = async () => {
   }
 };
 
+// Create a new movement
 exports.createMovement = async (movement) => {
   try {
     //TODO: Validate if category and description exist and date is valid
@@ -22,12 +25,21 @@ exports.createMovement = async (movement) => {
   }
 };
 
+// Update category in movements
 exports.editCategoriesInMovements = async (category_old, category_new) => {
-    try{
-        const movements = await movementSchema.updateMany({category: category_old}, {category: category_new});
-        return movements;
+  try {
+    if (
+      !mongoose.Types.ObjectId.isValid(category_old) &&
+      !mongoose.Types.ObjectId.isValid(category_new)
+    ) {
+      throw new AppError(400, "Invalid category input");
     }
-    catch(error){
-        throw error;
-    }
-}
+    const movements = await movementSchema.updateMany(
+      { category: category_old },
+      { category: category_new }
+    );
+    return movements;
+  } catch (error) {
+    throw error;
+  }
+};

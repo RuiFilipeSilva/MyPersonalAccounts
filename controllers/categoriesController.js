@@ -11,9 +11,9 @@ exports.getCategories = async (req, res) => {
             res.status(400).json({
                 message: error.message
             });
-        } else if (error.status) {
+        } else if (error instanceof AppError) {
             res.status(error.status).json({
-                message: error.message
+                message: error.message,
             });
         } else {
             res.status(500).json({
@@ -34,9 +34,9 @@ exports.createCategory = async (req, res) => {
             res.status(400).json({
                 message: error.message
             });
-        } else if (error.status) {
+        } else if (error instanceof AppError) {
             res.status(error.status).json({
-                message: error.message
+                message: error.message,
             });
         } else {
             res.status(500).json({
@@ -58,10 +58,10 @@ exports.editCategory = async (req, res) => {
             res.status(400).json({
                 message: error.message
             });
-        } else if (error.status) {
+        } else if (error instanceof AppError) {
             res.status(error.status).json({
-                message: error.message
-            });
+                message: error.message,
+            });;
         } else {
             res.status(500).json({
                 message: 'An unexpected error occurred'

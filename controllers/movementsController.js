@@ -1,4 +1,5 @@
 const movementFunctions = require("../functions/movementsFunctions");
+const AppError = require('../errors/appError');
 // MONGOOSE HERE IS TO CATCH THE VALIDATION ERRORS, SO WE CAN RETURN A 400 STATUS CODE INSTEAD OF A 500 ONE
 const mongoose = require("mongoose");
 
@@ -12,7 +13,7 @@ exports.getMovements = async (req, res) => {
       res.status(400).json({
         message: error.message,
       });
-    } else if (error.status) {
+    } else if (error instanceof AppError) {
       res.status(error.status).json({
         message: error.message,
       });
@@ -45,7 +46,7 @@ exports.createMovement = async (req, res) => {
       res.status(400).json({
         message: error.message,
       });
-    } else if (error.status) {
+    } else if (error instanceof AppError) {
       res.status(error.status).json({
         message: error.message,
       });
