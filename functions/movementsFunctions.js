@@ -1,6 +1,6 @@
 const movementSchema = require("../models/movements");
 const descriptionFunctions = require("./descriptionsFunctions");
-const AppError = require("../errors/appError");
+const AppError = require("../utils/appError");
 
 // Get all movements
 exports.getMovements = async () => {
@@ -14,20 +14,15 @@ exports.getMovements = async () => {
 
 // Create a new movement
 exports.createMovement = async (movement) => {
-  try {
     //TODO: Validate if category and description exist and date is valid
     await descriptionFunctions.findDescriptionByIdAndCategoryId(movement);
     const newMovement = new movementSchema(movement);
     await newMovement.save();
     return newMovement;
-  } catch (error) {
-    throw error;
-  }
 };
 
 // Update category in movements
 exports.editCategoriesInMovements = async (category_old, category_new) => {
-  try {
     if (
       !mongoose.Types.ObjectId.isValid(category_old) &&
       !mongoose.Types.ObjectId.isValid(category_new)
@@ -39,7 +34,4 @@ exports.editCategoriesInMovements = async (category_old, category_new) => {
       { category: category_new }
     );
     return movements;
-  } catch (error) {
-    throw error;
-  }
 };
