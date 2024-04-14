@@ -32,10 +32,18 @@ connectDB()
     const descriptionsRoutes = require("./routes/descriptionRoutes.js");
     app.use("/descriptions", descriptionsRoutes);
 
+    /* Auth Routes */
+    const authRotes = require("./routes/authRoutes");
+    app.use("/auth", authRotes);
+
+    /* Users Routes */
+    const usersRoutes = require("./routes/usersRoutes");
+    app.use("/users", usersRoutes);
+
     /* Error handling middleware */
     const errorHandler = require("./middleware/errorHandler");
     app.use(errorHandler);
-    
+
     app.listen(port, () => {
       console.log(`Server is running on port ${port}`);
     });
