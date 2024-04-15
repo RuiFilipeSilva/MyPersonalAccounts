@@ -7,6 +7,8 @@
 require("dotenv").config();
 const express = require("express");
 const { connectDB } = require("./mydb.js");
+const passport = require("passport");
+require("./middleware/passport")(passport);
 const app = express();
 const port = 3001;
 
@@ -20,6 +22,8 @@ connectDB()
       })
     );
     app.use(express.json());
+    /* Passport */
+    app.use(passport.initialize());
     /* Movements Routes */
     const movementsRoutes = require("./routes/movementsRoutes.js");
     app.use("/movements", movementsRoutes);
