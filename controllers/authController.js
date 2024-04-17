@@ -29,3 +29,24 @@ exports.login = async (req, res, next) => {
     next(error);
   }
 }
+
+exports.refreshToken = async (req, res, next) => {
+  const refreshToken = req.body.refreshToken;
+  console.log(refreshToken);
+  try {
+    const token = await authFunctions.refreshToken(refreshToken);
+    res.status(200).json(token);
+  } catch (error) {
+    next(error);
+  }
+}
+
+exports.logout = async (req, res, next) => {
+  const refreshToken = req.body.refreshToken;
+  try {
+    await authFunctions.logout(refreshToken);
+    res.status(200).json("User logged out");
+  } catch (error) {
+    next(error);
+  }
+}
